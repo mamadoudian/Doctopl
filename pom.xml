@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.doctopl</groupId>
-	<artifactId>authentication-service</artifactId>
+	<artifactId>doctopl-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>authentication-service</name>
+	<name>doctopl</name>
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
@@ -75,6 +75,11 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 

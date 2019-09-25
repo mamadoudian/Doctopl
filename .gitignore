@@ -12,6 +12,15 @@ target/
 .settings
 .springBeans
 .sts4-cache
+.factorypath
+.test.tmp
+.test.script
+.test.log
+.test.lck
+.test.properties
+.mvn
+.mvnw
+.HELP.md
 
 ### IntelliJ IDEA ###
 .idea
