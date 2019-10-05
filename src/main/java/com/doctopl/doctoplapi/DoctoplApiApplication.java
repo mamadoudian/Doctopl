@@ -11,11 +11,11 @@ import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 @SpringBootApplication
 @EntityScan(basePackageClasses = { 
-		AuthenticationServiceApplication.class,
+		DoctoplApiApplication.class,
 		Jsr310JpaConverters.class 
 })
 
-public class AuthenticationServiceApplication {
+public class DoctoplApiApplication {
 	
 	@PostConstruct
 	void init() {
@@ -23,6 +23,6 @@ public class AuthenticationServiceApplication {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(AuthenticationServiceApplication.class, args);
+		SpringApplication.run(DoctoplApiApplication.class, args);
 	}
 }
