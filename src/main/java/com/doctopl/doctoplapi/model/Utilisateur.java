@@ -1,8 +1,11 @@
 package com.doctopl.doctoplapi.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -22,12 +25,17 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.NaturalId;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import com.doctopl.doctoplapi.model.audit.DateAudit;
+import com.doctopl.doctoplapi.security.UserPrincipal;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -41,6 +49,7 @@ import lombok.Setter;
         })
 })
 @Data
+@AllArgsConstructor
 public class Utilisateur extends DateAudit{
 	
 	@Id
@@ -86,7 +95,7 @@ public class Utilisateur extends DateAudit{
 	@Size(max = 50)
 	private String typeUtilisateur;
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	private Set<Role> roles = new HashSet<>();
 	
     private boolean compteNonExpire;
@@ -105,7 +114,8 @@ public class Utilisateur extends DateAudit{
     }
     
 	public Utilisateur(String nomUtilisateur, String nom,String prenom,String email,
-			String password,Date dateNaissance,String lieu, String sexe,String typeUtilisateur) {
+			String password,Date dateNaissance,String lieu, String sexe,String typeUtilisateur
+			) {
 		super();
 		this.nomUtilisateur = nomUtilisateur;
 		this.email = email;
@@ -121,4 +131,37 @@ public class Utilisateur extends DateAudit{
 		this.credentialsNonExpired = true;
 		this.active = false;
 	}
+	
+	public static Utilisateur create(UserPrincipal user) {
+		
+//        List<Role> authorities = user.getAuthorities().stream().map(role ->
+//                new Role(role.getAuthority())))
+//        ).collect(Collectors.toList());
+//       
+		Set<Role> roles = new HashSet<Role>();
+		for ( GrantedAuthority autority: user.getAuthorities()) {
+			if(autority.getAuthority().equals(RoleName.ROLE_USER.name())) {
+				roles.add(new Role(RoleName.ROLE_USER));
+			}else {
+				roles.add(new Role(RoleName.ROLE_ADMIN));
+			}
+		}
+        return new Utilisateur(
+        		user.getId(), 
+        		user.getUsername(), 
+        		user.getName(), 
+        		user.getPrenom(), 
+        		user.getEmail(), 
+        		user.getPassword(),
+        		user.getDateNaissance(),
+        		user.getLieu(), 
+        		user.getSexe(), 
+        		user.getTypeUtilisateur(),
+        		roles,
+        		user.isCredentialsNonExpired(),
+        		user.isAccountNonLocked(),
+        		user.isAccountNonExpired(),
+        		user.isEnabled()
+        	);
+    }
 }

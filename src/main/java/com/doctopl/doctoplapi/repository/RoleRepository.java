@@ -9,7 +9,7 @@ import com.doctopl.doctoplapi.model.Role;
 import com.doctopl.doctoplapi.model.RoleName;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long>{
+public interface RoleRepository extends JpaRepository<Role, String>{
 	Optional<Role> findByNom(RoleName roleName);
 
 }

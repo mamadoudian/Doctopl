@@ -1,5 +1,9 @@
 package com.doctopl.doctoplapi;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.TimeZone;
 
 import javax.annotation.PostConstruct;
@@ -19,7 +23,10 @@ public class DoctoplApiApplication {
 	
 	@PostConstruct
 	void init() {
-		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
+		//TimeZone.setDefault(TimeZone.getTimeZone("Europe/Paris"));
+		System.out.println("Date Instant: " + Instant.now().toString());
+		System.out.println("Date Date: " +new Date().toString());
+		System.out.println("Date DateTime: " +LocalDateTime.now().toString());
 	}
 
 	public static void main(String[] args) {

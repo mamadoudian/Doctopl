@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+ 	<property resource="application.properties" />
+ 	<appender name="consoleAppender" class="ch.qos.logback.core.ConsoleAppender">
+   		<encoder>
+   			<Pattern>.%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg %n
+   			</Pattern>
+   		</encoder>
+   		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+   			<level>DEBUG</level>
+   		</filter>
+   	</appender>
+	
+	<appender name="ExecutionLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>execution.log</File>
+   		<encoder>
+   			<Pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%p]\t[%t] %m%n</Pattern>
+   			<!-- <Pattern>%d{yyyy/MM/dd HH:mm:ss,SSS}  %thread %level %logger – %msg%n</Pattern> -->
+   		</encoder>
+   		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+   		    <!-- daily rollover -->
+   			<FileNamePattern>execution.%d{yyyyMMdd}.log</FileNamePattern>	
+   		</rollingPolicy>
+   	
+	</appender>
+
+	<appender name="ErrorLogAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+   			<level>ERROR</level>
+   		</filter>
+		<File>erreurs.err</File>
+   		<encoder>
+   			<Pattern>%d{yyyy/MM/dd HH:mm:ss,SSS} [%p]\t[%t] %c%m%n</Pattern>
+   		</encoder>
+   		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+   		    <!-- daily rollover -->
+   			<FileNamePattern>erreurs.%d{yyyyMMdd}.err</FileNamePattern>	
+   		</rollingPolicy>
+	</appender>
+
+	<logger name="com.doctopl.doctoplapi" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="ExecutionLogAppender" />
+		<appender-ref ref="ErrorLogAppender" />
+	</logger>
+	
+	<logger name="org.apache.commons" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="ExecutionLogAppender" />
+		<appender-ref ref="ErrorLogAppender" />
+	</logger>
+
+	<logger name="org.springframework.security" additivity="false">
+		<level value="DEBUG" />
+		<appender-ref ref="ExecutionLogAppender" />
+		<appender-ref ref="ErrorLogAppender" />
+	</logger>
+	<logger name="org.springframework" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="ExecutionLogAppender" />
+		<appender-ref ref="ErrorLogAppender" />
+	</logger>
+	
+	<logger name="org.hibernate.SQL" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="consoleAppender" />
+	</logger>
+	
+	<logger name="org.hibernate" additivity="false">
+		<level value="INFO" />
+		<appender-ref ref="consoleAppender" />
+	</logger>
+
+	<logger name="root" additivity="false">
+		<level value="ERROR" />
+		<appender-ref ref="ExecutionLogAppender" />
+		<appender-ref ref="ErrorLogAppender" />
+	</logger>
+
+</configuration>

@@ -16,6 +16,8 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<spring-boot.run.jvmArguments>-Duser.timezone=Europe/Paris</spring-boot.run.jvmArguments>
+		
 	</properties>
 
 	<dependencies>
